@@ -4,15 +4,15 @@ import tensorflow as tf
 from tensorflow.keras import layers
 from dataset import data, get_batch
 
-# create a class for the embedding layer
+# 1. create a class for the embedding layer
 class TokenAndPositionEmbedding(layers.Layer):
     def __init__(self, vocab_size, d_model = 64, block_size = 8):
         super().__init__()
 
-        # 1. Token Embedding - lookup table (vocab_size, d_model)
+        # Token Embedding - lookup table (vocab_size, d_model)
         self.token_embed = layers.Embedding(input_dim = vocab_size, output_dim = d_model)
 
-        # 2. Positional Embedding (Learned Absolute)
+        # Positional Embedding (Learned Absolute)
         self.pos_embed = layers.Embedding(input_dim = block_size, output_dim = d_model)
 
     def call(self, x):
