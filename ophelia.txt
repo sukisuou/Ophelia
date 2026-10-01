@@ -1,0 +1,76 @@
+======================================================================
+PROJECT OPHELIA: AUTOREGRESSIVE TRANSFORMER FROM SCRATCH
+======================================================================
+
+[X] LEVEL 1: DATA PREPARATION & TOKENIZATION (Completed)
+----------------------------------------------------------------------
+- Raw conversation dataset: 36 dialogue lines (~1,128 characters).
+- Vocabulary extracted: 31 unique tokens.
+- Delimiters fixed at indices 0-3:
+    0: '_' (Padding)
+    1: '[' (Prompt start)
+    2: ']' (Prompt end / response transition)
+    3: '|' (Response end / EOS)
+- Bidirectional lookups:
+    char_to_id: character -> token ID
+    id_to_char: token ID -> character
+- Persisted artifacts:
+    - vocab.json (token-to-id m apping)
+    - encoded_data.npy (1D int32 array of continuous token IDs)
+
+
+[X] LEVEL 2: AUTOREGRESSIVE DATASET & SLIDING WINDOW
+----------------------------------------------------------------------
+- Define context length (block_size / sequence length, e.g., 16 or 32).
+- Slice continuous 1D token array into (X, Y) training pairs:
+    - Input  X: tokens from index t to t + block_size
+    - Target Y: tokens from index t + 1 to t + block_size + 1 (shifted right by 1)
+- Build a batching function / data loader to feed batches into the model.
+
+
+[ ] LEVEL 3: EMBEDDINGS & POSITIONAL ENCODING
+----------------------------------------------------------------------
+- Token Embedding layer:
+    Maps discrete token IDs (0 to 30) -> continuous vectors (d_model).
+- Positional Encoding layer:
+    Injects sequence order into embeddings (learned, size = 64).
+- Combine: Input Vector = Token_Embedding + Positional_Encoding (X = E + P)
+
+
+[ ] LEVEL 4: CAUSAL TRANSFORMER ARCHITECTURE
+----------------------------------------------------------------------
+- Self-Attention Mechanism:
+    - Linear projections for Q (Query), K (Key), V (Value).
+    - Scaled dot-product attention: softmax((Q @ K.T) / sqrt(d_k)) @ V.
+- Causal Masking:
+    - Lower triangular mask (prevents tokens from attending to the future).
+- Multi-Head Attention (MHA):
+    - Split d_model across multiple attention heads.
+- Transformer Block:
+    - Layer Normalization (Pre-LN).
+    - Multi-Head Causal Attention with residual connection (X + Attention(X)).
+    - Feed-Forward Network (FFN: Linear -> GELU -> Linear) with residual.
+- Final Output Layer:
+    - Layer Norm -> Linear projection (d_model -> vocab_size=31) -> Logits.
+
+
+[ ] LEVEL 5: TRAINING LOOP & OPTIMIZATION
+----------------------------------------------------------------------
+- Loss function: Cross-Entropy Loss (comparing predicted logits vs target Y).
+- Optimizer: AdamW / Adam.
+- Backpropagation and gradient updates.
+- Track training loss convergence over epochs.
+
+
+[ ] LEVEL 6: INFERENCE & AUTOREGRESSIVE GENERATION
+----------------------------------------------------------------------
+- Provide prompt prefix (e.g., "[hi, ophelia]").
+- Encode prompt using char_to_id.
+- Autoregressive loop:
+    1. Pass prompt tokens into the model.
+    2. Extract logits for the final token position.
+    3. Sample next token (Greedy / Argmax, Temperature, or Top-k).
+    4. Append sampled token to input sequence.
+    5. Repeat until '|' (EOS token) or max tokens reached.
+- Decode token IDs back to string using id_to_char.
+======================================================================
