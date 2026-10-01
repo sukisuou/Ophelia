@@ -6,7 +6,7 @@ The main goal was to learn about **attention mechanism**, **transformer block**,
 ## Architecture Overview
 - **Type**: Autoregressive Decoder-only Transformer
 - **Embedding Dim (d_model)**: 64
-- **Positional Embedding**: Learned 1D embedding (X = E + P)
+- **Positional Embedding**: Learned 1D embedding (X = E + P) from GPT-2
 - **Transformer Block**:
   - Pre-Layer Normalization (Pre-LN) for training stability
   - Multi-Head Causal Self-Attention to prevent future token leakage
@@ -20,5 +20,5 @@ The main goal was to learn about **attention mechanism**, **transformer block**,
 4) `dataset.py`  - vectorized sliding-window data loader, generating (B, T) inputs and right-shifted targets
 
 ## References
-- *Attention Is All You Need* by Vaswani et al. (2017), Section 3.2 and further 
+- *Attention Is All You Need* by Vaswani et al. (2017), Section 3.2 and further
 - Google Gemini as personal co-pilot and trainer
