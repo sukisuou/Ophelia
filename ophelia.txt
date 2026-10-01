@@ -28,7 +28,7 @@ PROJECT OPHELIA: AUTOREGRESSIVE TRANSFORMER FROM SCRATCH
 - Build a batching function / data loader to feed batches into the model.
 
 
-[ ] LEVEL 3: EMBEDDINGS & POSITIONAL ENCODING
+[X] LEVEL 3: EMBEDDINGS & POSITIONAL ENCODING
 ----------------------------------------------------------------------
 - Token Embedding layer:
     Maps discrete token IDs (0 to 30) -> continuous vectors (d_model).
