@@ -5,11 +5,15 @@ The main goal was to learn about **attention mechanism**, **transformer**, and *
 
 ## Architecture Overview
 - **Type**: Autoregressive Decoder-only Transformer
+- **Layers**: 4 transformer blocks
 - **Embedding Dim (d_model)**: 64
+- **Attention Heads (h)**: 4 (d_k = 16)
+- **Context Length (T/block_size)**: 32
 - **Positional Embedding**: Learned 1D embedding (X = E + P) from GPT-2
 - **Transformer Block**:
   - Pre-Layer Normalization (Pre-LN) for training stability
-  - Multi-Head Causal Self-Attention to prevent future token leakage
+  - Bias-free linear projections (W_q, W_k, W_v, W_0)
+  - Multi-Head Causal Self-Attention with scaling
   - Feed-Forward Network (FFN) with GELU activation
   - Residual streaming across sub-layers (Attention and FFN blocks)
 
@@ -22,4 +26,4 @@ The main goal was to learn about **attention mechanism**, **transformer**, and *
 
 ## References
 - *Attention Is All You Need* by Vaswani et al. (2017), Section 3.2 and further
-- Google Gemini as personal co-pilot and trainer
+- Google Gemini, as personal co-pilot and trainer
