@@ -7,7 +7,7 @@ The main goal was to learn about **attention mechanism**, **transformer**, and *
 - **Type**: Autoregressive Decoder-only Transformer
 - **Layers**: 4 transformer blocks
 - **Embedding Dim (d_model)**: 64
-- **Attention Heads (h)**: 4 (d_k = 16)
+- **Attention Heads (h)**: 4
 - **Context Length (T/block_size)**: 32
 - **Positional Embedding**: Learned 1D embedding (X = E + P) from GPT-2
 - **Transformer Block**:
