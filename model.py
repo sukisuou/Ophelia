@@ -25,8 +25,8 @@ if __name__ == "__main__":
     with open("vocab.json", "r") as f:
         vocab = json.load(f)
     vocab_size = len(vocab)
-    tokens, _ = get_batch(data) # (16, 32)
+    tokens, _ = get_batch(data) # (16, 64)
 
     embed_layer = TokenAndPositionEmbedding(vocab_size)
-    X = embed_layer(tokens) 
+    X = embed_layer(tokens)     # (16, 64, 64)
     print(f"X shape: {X.shape}")
