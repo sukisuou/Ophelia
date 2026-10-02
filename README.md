@@ -22,7 +22,7 @@ The main goal was to learn about **attention mechanism**, **transformer**, and *
 2) `convos.py`   - dataset holding small conversations
 3) `prepare.py`  - tokenizer and dataset serialization (`vocab.json`, `encoded.npy`)
 4) `dataset.py`  - vectorized sliding-window data loader, generating (B, T) inputs and right-shifted targets
-5) `model.py`    - resolving input vector (X) from token and positional embedding (E + P)
+5) `model.py`    - main modelling file: embedding, transformer block (MHA + FFN), functional API network
 
 ## References
 - *Attention Is All You Need* by Vaswani et al. (2017), Section 3.2 and further
