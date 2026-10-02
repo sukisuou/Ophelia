@@ -9,7 +9,8 @@ data = np.load("encoded_data.npy")
 print(f"Loaded {len(data)} tokens, shape: {data.shape}")
 
 # next-token prediction
-def get_batch(data, batch_size = 4, block_size = 8):
+block_size = 32
+def get_batch(data, batch_size = 16, block_size = block_size):
     max_start = len(data) - block_size - 1      # block size is slider size
     indices = np.random.randint(0, max_start, size = batch_size)
 

@@ -2,11 +2,11 @@ import json
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers
-from dataset import data, get_batch
+from dataset import data, block_size, get_batch
 
 # 1. create a class for the embedding layer
 class TokenAndPositionEmbedding(layers.Layer):
-    def __init__(self, vocab_size, d_model = 64, block_size = 8):
+    def __init__(self, vocab_size, d_model = 64, block_size = block_size):
         super().__init__()
 
         # Token Embedding - lookup table (vocab_size, d_model)
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     with open("vocab.json", "r") as f:
         vocab = json.load(f)
     vocab_size = len(vocab)
-    tokens, _ = get_batch(data) # (4, 8)
+    tokens, _ = get_batch(data) # (16, 32)
 
     embed_layer = TokenAndPositionEmbedding(vocab_size)
     X = embed_layer(tokens) 
