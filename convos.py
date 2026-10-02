@@ -1,3 +1,6 @@
+# purpose:
+# - holds conversations as dataset
+
 convos = [
     # greetings
     "[hi, ophelia]hi, papa!|",
@@ -44,4 +47,5 @@ convos = [
     "[open your mouth]ha ha ha!|"
 ]
 
-print(f"Dialogues: {len(convos)}")
+if __name__ == '__main__':
+    print(f"Dialogues: {len(convos)}")

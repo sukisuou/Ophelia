@@ -1,3 +1,7 @@
+# purpose: 
+# - grabs dataset in batches
+# - used in training
+
 import numpy as np
 
 # import data

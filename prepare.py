@@ -1,3 +1,8 @@
+# purpose: 
+# - tokenization and data serialization
+# - processes raw conversations from `convos`
+# - saves the vocabulary and encoded data 
+
 import json
 import numpy as np
 from convos import convos
