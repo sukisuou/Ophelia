@@ -20,6 +20,7 @@ def get_batch(data, batch_size = 16, block_size = block_size):
 
     return X, y
 
+# testing
 if __name__ == "__main__": 
-    X, y = get_batch(data)
+    X, y = get_batch(data, batch_size = 2, block_size = 6)
     print(f"X: {X.shape}\n{X}\ny: {y.shape}\n{y}")
