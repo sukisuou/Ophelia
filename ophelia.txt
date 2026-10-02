@@ -2,7 +2,7 @@
 PROJECT OPHELIA: AUTOREGRESSIVE TRANSFORMER FROM SCRATCH
 ======================================================================
 
-[X] LEVEL 1: DATA PREPARATION & TOKENIZATION (Completed)
+[X] LEVEL 1: DATA PREPARATION & TOKENIZATION
 ----------------------------------------------------------------------
 - Raw conversation dataset: 36 dialogue lines (~1,128 characters).
 - Vocabulary extracted: 31 unique tokens.
