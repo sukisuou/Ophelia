@@ -114,7 +114,7 @@ def build_transformer(block_size = block_size, d_model = d_model, num_heads = 4,
     norm_x = layers.LayerNormalization(epsilon = 1e-5, name = "ln_final")(x)
     logits = layers.Dense(vocab_size, name = "logits")(norm_x)   # linear output / logit
 
-    return tf.keras.Model(inputs = inputs, outputs = logits, name = "DecoderTransformer")
+    return tf.keras.Model(inputs = inputs, outputs = logits, name = "CausalDecoderTransformer")
 
 
 # testing

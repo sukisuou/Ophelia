@@ -23,7 +23,7 @@ def decode(ids):
     return "".join([id_to_char[i] for i in ids])
 
 # create autoregressive generation function
-def generate(prompt, max_new_token = 60):
+def generate(prompt, max_new_token = 60, stream = True):
     stop_id = char_to_id["|"]
 
     # encode prompt text to int32 ids (1, seq_len)
@@ -39,19 +39,23 @@ def generate(prompt, max_new_token = 60):
         logits = ophelia(idx_cond, training = False)
         last_token = logits[:, -1, :]
 
-        # grab the highest probability index for next token (1,)
-        next_token_id = tf.argmax(last_token, axis = -1, output_type = tf.int32)
-        
-        # expand to match 2D dim of idx (1, 1)
-        next_token_id = tf.expand_dims(next_token_id, axis = -1)
+        # grab the next token (1, 1) using temperature of 0.7
+        next_token_id = tf.random.categorical(last_token / 0.7, num_samples = 1, dtype = tf.int32)
 
         # stops at delimiter "|"
-        if int(next_token_id[0, 0]) == stop_id:
+        token_id = int(next_token_id[0, 0])
+        if token_id == stop_id:
             break
+
+        # stream letter by letter in real time
+        if stream:
+            print(id_to_char[token_id], end = "", flush = True)
 
         # concat back to idx (1, seq_len + 1)
         idx = tf.concat([idx, next_token_id], axis = 1)
-    
+    if stream:
+        print('\n')
+
     # decode and return the generated text
     prompt_len = len(tokens)
     generated_tokens = idx[0, prompt_len:].numpy()
@@ -62,7 +66,9 @@ if __name__ == "__main__":
     while(True):
         print("You: ", end = "", flush = True)
         prompt = input()
+        if prompt.strip() == '/':
+            print("Ophelia: Goodbye!")
+            break
         print("Ophelia: ", end = "", flush = True)
         formatted_prompt = f"[{prompt}]"
         response = generate(formatted_prompt)
-        print(response, '\n')
