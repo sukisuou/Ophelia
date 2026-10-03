@@ -54,7 +54,7 @@ PROJECT OPHELIA: AUTOREGRESSIVE TRANSFORMER FROM SCRATCH
     - Layer Norm -> Linear projection (d_model -> vocab_size=31) -> Logits.
 
 
-[ ] LEVEL 5: TRAINING LOOP & OPTIMIZATION
+[X] LEVEL 5: TRAINING LOOP & OPTIMIZATION
 ----------------------------------------------------------------------
 - Loss function: Cross-Entropy Loss (comparing predicted logits vs target Y).
 - Optimizer: AdamW / Adam.
@@ -62,7 +62,7 @@ PROJECT OPHELIA: AUTOREGRESSIVE TRANSFORMER FROM SCRATCH
 - Track training loss convergence over epochs.
 
 
-[ ] LEVEL 6: INFERENCE & AUTOREGRESSIVE GENERATION
+[X] LEVEL 6: INFERENCE & AUTOREGRESSIVE GENERATION
 ----------------------------------------------------------------------
 - Provide prompt prefix (e.g., "[hi, ophelia]").
 - Encode prompt using char_to_id.

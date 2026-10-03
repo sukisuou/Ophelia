@@ -23,7 +23,7 @@ class TokenAndPositionEmbedding(layers.Layer):
         self.pos_embed = layers.Embedding(input_dim = block_size, output_dim = d_model, name = "pos_embedding")
 
     def call(self, x):
-        seq_len = block_size    # grab only slider dim (block_size)
+        seq_len = tf.shape(x)[1]    # grab only slider dim (T/block_size)
         positions = tf.range(start = 0, limit = seq_len)
         return self.token_embed(x) + self.pos_embed(positions)  # return input vector, X
 
@@ -71,8 +71,10 @@ class MultiHeadAttention(layers.Layer):
         att_scores /= tf.math.sqrt(tf.cast(self.d_k, att_scores.dtype))
 
         # causal masking
-        if mask is not None:
-            att_scores += mask
+        rows = tf.range(T)[:, None]
+        cols = tf.range(T)[None, :]
+        causal_mask = tf.where(cols > rows, float('-inf'), 0.0)
+        att_scores += causal_mask
 
         # softmax
         A = tf.nn.softmax(att_scores, axis = -1)
@@ -86,23 +88,18 @@ class MultiHeadAttention(layers.Layer):
 
 # transformer network with functional API
 def build_transformer(block_size = block_size, d_model = d_model, num_heads = 4, num_stack = 4):
-    inputs = layers.Input(shape = (block_size,), dtype = tf.int32, name = "token_ids")
+    inputs = layers.Input(shape = (None,), dtype = tf.int32, name = "token_ids")
 
     # 1. Token and Position embedding
     x = TokenAndPositionEmbedding(vocab_size)(inputs)
 
-    # 2. Causal Mask
-    rows = tf.range(block_size)[:, None]
-    cols = tf.range(block_size)[None, :]
-    causal_mask = tf.where(cols > rows, float('-inf'), 0.0)
-
     # ------------------------------------------------------------------------------------------------
-    # 3. Transformer block
+    # 2. Transformer blocks
     # ------------------------------------------------------------------------------------------------
     for i in range(num_stack):
         # --- Attention sub-block (Pre-LN) ---
         norm_x = layers.LayerNormalization(epsilon = 1e-5, name = f"ln_att_{i}")(x)
-        att_out = MultiHeadAttention(name = f"mha_{i}")(norm_x, mask = causal_mask)
+        att_out = MultiHeadAttention(name = f"mha_{i}")(norm_x)
         x = layers.Add(name = f"residual_att_{i}")([x, att_out])  # X = X + att(X)
 
         # --- Feed-Forward sub-block (Pre-LN) ---
@@ -112,7 +109,7 @@ def build_transformer(block_size = block_size, d_model = d_model, num_heads = 4,
         x = layers.Add(name = f"residual_ffn_{i}")([x, ffn_out])
     # ------------------------------------------------------------------------------------------------
 
-    # 4. Final Output Head
+    # 3. Final Output Head
     norm_x = layers.LayerNormalization(epsilon = 1e-5, name = "ln_final")(x)
     logits = layers.Dense(vocab_size, name = "logits")(norm_x)   # linear output / logit
 

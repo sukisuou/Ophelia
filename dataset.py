@@ -6,7 +6,8 @@ import numpy as np
 
 # import data
 data = np.load("encoded_data.npy")
-print(f"Loaded {len(data)} tokens, shape: {data.shape}")
+if __name__ == "__main__": 
+    print(f"Loaded {len(data)} tokens, shape: {data.shape}")
 
 # set a context window size
 block_size = 64
