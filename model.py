@@ -4,16 +4,17 @@ import tensorflow as tf
 from tensorflow.keras import layers
 
 # set necessary data
-from dataset import data, block_size, get_batch
 with open("vocab.json", "r") as f:
     vocab = json.load(f)
 vocab_size = len(vocab["char_to_id"])
-d_model = 64
 
+# set a context window size and its dimensional space
+block_size = 64
+d_model = 64
 
 # 1. create a class for the embedding layer
 class TokenAndPositionEmbedding(layers.Layer):
-    def __init__(self, vocab_size, d_model = d_model, block_size = block_size, **kwargs):
+    def __init__(self, vocab_size = vocab_size, block_size = block_size,  d_model = d_model, **kwargs):
         super().__init__(**kwargs)
 
         # Token Embedding - lookup table (vocab_size, d_model)
@@ -91,7 +92,7 @@ def build_transformer(block_size = block_size, d_model = d_model, num_heads = 4,
     inputs = layers.Input(shape = (None,), dtype = tf.int32, name = "token_ids")
 
     # 1. Token and Position embedding
-    x = TokenAndPositionEmbedding(vocab_size)(inputs)
+    x = TokenAndPositionEmbedding(vocab_size = vocab_size, block_size = block_size,  d_model = d_model)(inputs)
 
     # ------------------------------------------------------------------------------------------------
     # 2. Transformer blocks
@@ -99,7 +100,7 @@ def build_transformer(block_size = block_size, d_model = d_model, num_heads = 4,
     for i in range(num_stack):
         # --- Attention sub-block (Pre-LN) ---
         norm_x = layers.LayerNormalization(epsilon = 1e-5, name = f"ln_att_{i}")(x)
-        att_out = MultiHeadAttention(name = f"mha_{i}")(norm_x)
+        att_out = MultiHeadAttention(d_model = d_model, num_heads = num_heads, name = f"mha_{i}")(norm_x)
         x = layers.Add(name = f"residual_att_{i}")([x, att_out])  # X = X + att(X)
 
         # --- Feed-Forward sub-block (Pre-LN) ---

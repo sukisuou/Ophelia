@@ -2,16 +2,16 @@ import numpy as np
 import tensorflow as tf
 
 # set necessary data
-from model import build_transformer, d_model
-from dataset import data, block_size, get_batch
+from dataset import data, get_batch
+from model import build_transformer, block_size
 
 # split data (90/10)
 # too small for her!!! split on bigger one later
 
 # create a dataset generator with get_batch
-def data_gen(batch_size = 16):
+def data_gen(batch_size = 16, block_size = block_size):
     while True:
-        yield get_batch(data, batch_size = batch_size)
+        yield get_batch(data, batch_size = batch_size, block_size = block_size)
 
 # build the model
 model = build_transformer()

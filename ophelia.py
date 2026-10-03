@@ -1,8 +1,9 @@
 import json
 import numpy as np
 import tensorflow as tf
-from dataset import block_size
-from model import build_transformer
+
+# set necessary data
+from model import build_transformer, block_size
 
 # build ophelia's model
 ophelia = build_transformer()
@@ -17,7 +18,7 @@ id_to_char = {int(k): v for k, v in vocab["id_to_char"].items()}
 
 # create encoder and decoder
 def encode(text):
-    return [char_to_id[ch] for ch in text]
+    return [char_to_id[ch] for ch in text if ch in char_to_id]
 def decode(ids):
     return "".join([id_to_char[i] for i in ids])
 
@@ -29,7 +30,7 @@ def generate(prompt, max_new_token = 60):
     tokens = encode(prompt)
     idx = tf.constant([tokens], dtype = tf.int32)
 
-    # loop every token generation
+    # loop every token generation2
     for _ in range(max_new_token):
         # keep new tokens (limits to context window size, forgets old tokens)
         idx_cond = idx[:, -block_size:]
