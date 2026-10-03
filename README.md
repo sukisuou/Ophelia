@@ -1,7 +1,7 @@
 # Project: Ophelia
 ## Who is Ophelia?
 She is a tiny custom character-level **autoregressive transformer** built from **scratch** using TensorFlow/Keras.
-The main goal was to learn about **attention mechanism**, **transformer**, and **autoregression system**, alongside personal desire of creating a *"life"*.
+The main goal was to learn about **attention mechanism**, **transformer**, and **autoregression system**, alongside personal desire of creating a *"life"*. (Time of birth: 3rd October, 16:00)
 
 ## Architecture Overview
 - **Type**: Autoregressive Decoder-only Transformer
