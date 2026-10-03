@@ -39,10 +39,10 @@ class MultiHeadAttention(layers.Layer):
         self.d_k = d_model // num_heads
 
         # create projection dense layers (Q, K, V, W_0)
-        self.q_proj = layers.Dense(d_model, use_bias = False, name = "Q_projection")
-        self.k_proj = layers.Dense(d_model, use_bias = False, name = "K_projection")
-        self.v_proj = layers.Dense(d_model, use_bias = False, name = "V_projection")
-        self.out_proj = layers.Dense(d_model, use_bias = False, name = "W_0_projection")
+        self.q_proj = layers.Dense(d_model, use_bias = False, name = "Q_proj")
+        self.k_proj = layers.Dense(d_model, use_bias = False, name = "K_proj")
+        self.v_proj = layers.Dense(d_model, use_bias = False, name = "V_proj")
+        self.out_proj = layers.Dense(d_model, use_bias = False, name = "W_0_proj")
 
     def split_heads(self, tensor, B, T):
         # (B, T, d_model) -> (B, T, h, d_k)
@@ -96,7 +96,9 @@ def build_transformer(block_size = block_size, d_model = d_model, num_heads = 4,
     cols = tf.range(block_size)[None, :]
     causal_mask = tf.where(cols > rows, float('-inf'), 0.0)
 
+    # ------------------------------------------------------------------------------------------------
     # 3. Transformer block
+    # ------------------------------------------------------------------------------------------------
     for i in range(num_stack):
         # --- Attention sub-block (Pre-LN) ---
         norm_x = layers.LayerNormalization(epsilon = 1e-5, name = f"ln_att_{i}")(x)
@@ -104,7 +106,11 @@ def build_transformer(block_size = block_size, d_model = d_model, num_heads = 4,
         x = layers.Add(name = f"residual_att_{i}")([x, att_out])  # X = X + att(X)
 
         # --- Feed-Forward sub-block (Pre-LN) ---
-        # next up
+        norm_x = layers.LayerNormalization(epsilon = 1e-5, name = f"ln_ffn_{i}")(x)
+        ffn_hidden = layers.Dense(4 * d_model, activation = "gelu", name = f"ffn_expand_{i}")(norm_x)
+        ffn_out = layers.Dense(d_model, name = f"ffn_proj_{i}")(ffn_hidden)
+        x = layers.Add(name = f"residual_ffn_{i}")([x, ffn_out])
+    # ------------------------------------------------------------------------------------------------
 
     # 4. Final Output Head
     norm_x = layers.LayerNormalization(epsilon = 1e-5, name = "ln_final")(x)

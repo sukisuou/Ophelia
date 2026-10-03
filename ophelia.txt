@@ -37,7 +37,7 @@ PROJECT OPHELIA: AUTOREGRESSIVE TRANSFORMER FROM SCRATCH
 - Combine: Input Vector = Token_Embedding + Positional_Encoding (X = E + P)
 
 
-[ ] LEVEL 4: CAUSAL TRANSFORMER ARCHITECTURE
+[X] LEVEL 4: CAUSAL TRANSFORMER ARCHITECTURE
 ----------------------------------------------------------------------
 - Self-Attention Mechanism:
     - Linear projections for Q (Query), K (Key), V (Value).
