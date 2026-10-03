@@ -73,4 +73,28 @@ PROJECT OPHELIA: AUTOREGRESSIVE TRANSFORMER FROM SCRATCH
     4. Append sampled token to input sequence.
     5. Repeat until '|' (EOS token) or max tokens reached.
 - Decode token IDs back to string using id_to_char.
+
+
+# POST-TRAINING FINE-TUNE
+
+[ ] LEVEL 7: DATASET & VALIDATION
+----------------------------------------------------------------------
+- Expand prompt and target variations to prevent memorization
+- Train/Validation split (90/10)
+- Add validation loss evaluation to training loop
+
+
+[ ] LEVEL 8: REGULARIZATION & OPTIMIZATION
+----------------------------------------------------------------------
+- Bump d_model to 128 and 8 heads
+- Add dropouts (embeddings, attention, and FFN)
+- Switch to AdamW optimizer with weight decay
+- Track best val_loss and save model checkpoints
+- Implement early stopping with patience
+
+
+[ ] LEVEL 9: DYNAMIC SAMPLING INFERENCE
+----------------------------------------------------------------------
+- Add temperature scaling to logits
+- Swap tf.argmax with tf.random.categorical
 ======================================================================

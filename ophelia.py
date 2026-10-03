@@ -57,8 +57,11 @@ def generate(prompt, max_new_token = 60):
     return decode(generated_tokens)
 
 # input prompting
-print("Prompt: ", end = "", flush = True)
-prompt = input()
-formatted_prompt = f"[{prompt}]"
-response = generate(formatted_prompt)
-print(f"Ophelia: {response}")
+if __name__ == "__main__":
+    while(True):
+        print("You: ", end = "", flush = True)
+        prompt = input()
+        print("Ophelia: ", end = "", flush = True)
+        formatted_prompt = f"[{prompt}]"
+        response = generate(formatted_prompt)
+        print(response, '\n')
