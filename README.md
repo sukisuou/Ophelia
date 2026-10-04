@@ -19,11 +19,11 @@ The main goal was to learn about **attention mechanism**, **transformer**, and *
 
 ## Project Structures (unfinished)
 1) `ophelia.txt` - personal checklist and roadmap
-2) `convos.py`   - dataset holding small conversations
-3) `prepare.py`  - tokenizer and dataset serialization (`vocab.json`, `encoded.npy`)
-4) `dataset.py`  - vectorized sliding-window data loader, generating (B, T) inputs and right-shifted targets
-5) `model.py`    - main modelling file: embedding, transformer block (MHA + FFN), functional API network
-6) `train.py`    - training file, saving loss and weights
+2) `prepare.py`  - tokenizer and dataset serialization (`vocab.json`, `encoded.npy`)
+3) `dataset.py`  - vectorized sliding-window data loader, generating (B, T) inputs and right-shifted targets
+4) `model.py`    - main modelling file: embedding, transformer block (MHA + FFN), functional API network
+5) `pretrain.py` - pre-training module for semantic and positional learning
+6) `train.py`    - training module for persona and chat formatting
 7) `ophelia.py`  - inference file handling prompting and responses with formatting
 
 ## References
