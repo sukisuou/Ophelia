@@ -5,9 +5,11 @@
 import numpy as np
 
 # import data
-data = np.load("encoded_data.npy")
+data_pretrain = np.load("encoded_pretrain.npy")
+data_persona = np.load("encoded_persona.npy")
 if __name__ == "__main__": 
-    print(f"Loaded {len(data)} tokens, shape: {data.shape}")
+    print(f"Pretrain: Loaded {len(data_pretrain)} tokens, shape: {data_pretrain.shape}")
+    print(f"Persona: Loaded {len(data_persona)} tokens, shape: {data_persona.shape}")
 
 # next-token prediction
 def get_batch(data, batch_size = 16, block_size = 64):
@@ -22,5 +24,5 @@ def get_batch(data, batch_size = 16, block_size = 64):
 
 # testing
 if __name__ == "__main__": 
-    X, y = get_batch(data, batch_size = 2, block_size = 6)
-    print(f"X: {X.shape}\n{X}\ny: {y.shape}\n{y}")
+    X, y = get_batch(data_pretrain, batch_size = 2, block_size = 6)
+    print(f"Example:\nX: {X.shape}\n{X}\ny: {y.shape}\n{y}")

@@ -83,9 +83,10 @@ PROJECT OPHELIA: AUTOREGRESSIVE TRANSFORMER FROM SCRATCH
 - Swap tf.argmax with tf.random.categorical
 
 
-[ ] LEVEL 8: DATASET & VALIDATION
+[X] LEVEL 8: DATASET & VALIDATION
 ----------------------------------------------------------------------
 - Expand prompt and target variations to prevent memorization
+- Pre-train with outside dataset for base weights, finetune with personal dataset
 - Train/Validation split (90/10)
 - Add validation loss evaluation to training loop
 
