@@ -17,6 +17,7 @@ The main goal was to learn about **attention mechanism**, **transformer**, and *
   - Multi-Head Causal Self-Attention with scaling
   - Feed-Forward Network (FFN) with GELU activation
   - Residual streaming across sub-layers (Attention and FFN blocks)
+- **Additional**: Transfer learning using TinyStories for pre-training
 
 ## Project Structures (unfinished)
 1) `ophelia.txt` - personal checklist and roadmap
@@ -30,3 +31,4 @@ The main goal was to learn about **attention mechanism**, **transformer**, and *
 ## References
 - *Attention Is All You Need* by Vaswani et al. (2017), Section 3.2 and further
 - Google Gemini, as personal co-pilot and trainer
+- roneneldan/TinyStories from HuggingFace, 5000 shuffled stories
