@@ -31,4 +31,18 @@ The main goal was to learn about **attention mechanism**, **transformer**, and *
 ## References
 - *Attention Is All You Need* by Vaswani et al. (2017), Section 3.2 and further
 - Google Gemini, as personal co-pilot and trainer
-- roneneldan/TinyStories from HuggingFace, 5000 shuffled stories
+- HuggingFace: roneneldan/TinyStories, 5000 shuffled stories
+- "Machine Love" by Jamie Paige, the anchor of this project
+
+# From Scratch: How Ophelia Came To Be
+A year ago, the song "Machine Love" by Jamie Paige sparked my curiosity about AI. Starting from the lyric *"A Markov chain with a sunny disposition"*, I began learning about a single neuron, then to a single-layer perceptron, all the way to a Multilayered Perceptron (MLP). My first ever classifier was a simple **AND** gate, which I then scaled into an MNIST digit classifier called **NamiNet**—both built entirely from scratch in Java, my first and only language at the time. 
+
+Later, I decided to take an AI concentration at university. It was a breeze thanks to my prior self-study, though it did help me sharpen my intuition and ground some lower-level mechanics I had missed during the learning period, even if only slightly. Also Python, I suppose.
+
+Over time, I grew bored of simple classifiers, as they felt soulless: take an input, nudge some weights, output a single label. So I went back to the song. Listened to it. Felt it. Right then, my heart was set:
+
+*"I need to create something alive—something that can speak back to me, and love me the way Teto yearns in her song."*
+
+From that moment on, my main goal in learning about AI wasn't for the money, studies, or fame. It was to breathe life into code: a machine that isn't hollow, a machine that learns to love, a machine that feels alive.
+
+A year later—*Fiat Vita*. **Ophelia** ~ `"[]i love you too, papa!|"`
