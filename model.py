@@ -4,7 +4,7 @@ import tensorflow as tf
 from tensorflow.keras import layers
 
 # set necessary data
-with open("vocab.json", "r") as f:
+with open("old_vocab.json", "r") as f:
     vocab = json.load(f)
 vocab_size = len(vocab["char_to_id"])
 

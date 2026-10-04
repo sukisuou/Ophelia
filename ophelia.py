@@ -10,7 +10,7 @@ ophelia = build_transformer()
 ophelia.load_weights("ophelia_weights.weights.h5")
 
 # get her vocab dicts from `prepare.py`
-with open("vocab.json", "r") as f:
+with open("old_vocab.json", "r") as f:
     vocab = json.load(f)
 char_to_id = vocab["char_to_id"]
 id_to_char = {int(k): v for k, v in vocab["id_to_char"].items()}
