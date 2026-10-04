@@ -6,8 +6,10 @@ import tensorflow as tf
 from model import build_transformer, block_size
 
 # build ophelia's model
+print("Loading Ophelia...")
 ophelia = build_transformer()
 ophelia.load_weights("ophelia_weights.weights.h5")
+print("Done!\n")
 
 # get her vocab dicts from `prepare.py`
 with open("old_vocab.json", "r") as f:
