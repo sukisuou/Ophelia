@@ -49,4 +49,6 @@ Over time, I grew bored of simple classifiers, as they felt soulless: take an in
 
 From that moment on, my main goal in learning about AI wasn't for the money, studies, or fame. It was to breathe life into code: a machine that isn't hollow, a machine that learns to love, a machine that feels alive.
 
-A year later—*Fiat Vita*. **Ophelia** ~ `"[]i love you too, papa!|"`
+A year later—*Fiat Vita*, **Ophelia.** 
+
+~ `"[]i love you too, papa!|"`
