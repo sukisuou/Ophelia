@@ -10,7 +10,8 @@ vocab_size = len(vocab["char_to_id"])
 
 # set a context window size and its dimensional space
 block_size = 64
-d_model = 64
+d_model = 128
+num_heads = 8 
 
 # 1. create a class for the embedding layer
 class TokenAndPositionEmbedding(layers.Layer):
@@ -31,7 +32,7 @@ class TokenAndPositionEmbedding(layers.Layer):
 
 # 2. create multi-head attention (MHA) block
 class MultiHeadAttention(layers.Layer):
-    def __init__(self, d_model = d_model, num_heads = 4, **kwargs):
+    def __init__(self, d_model = d_model, num_heads = num_heads, **kwargs):
         super().__init__(**kwargs)
 
         # get h and d_k
@@ -88,11 +89,12 @@ class MultiHeadAttention(layers.Layer):
 
 
 # transformer network with functional API
-def build_transformer(block_size = block_size, d_model = d_model, num_heads = 4, num_stack = 4):
+def build_transformer(block_size = block_size, d_model = d_model, num_heads = num_heads, num_stack = 4):
     inputs = layers.Input(shape = (None,), dtype = tf.int32, name = "token_ids")
 
     # 1. Token and Position embedding
     x = TokenAndPositionEmbedding(vocab_size = vocab_size, block_size = block_size,  d_model = d_model)(inputs)
+    x = layers.Dropout(0.1, name = "embed_dropout")(x)
 
     # ------------------------------------------------------------------------------------------------
     # 2. Transformer blocks
@@ -101,13 +103,15 @@ def build_transformer(block_size = block_size, d_model = d_model, num_heads = 4,
         # --- Attention sub-block (Pre-LN) ---
         norm_x = layers.LayerNormalization(epsilon = 1e-5, name = f"ln_att_{i}")(x)
         att_out = MultiHeadAttention(d_model = d_model, num_heads = num_heads, name = f"mha_{i}")(norm_x)
-        x = layers.Add(name = f"residual_att_{i}")([x, att_out])  # X = X + att(X)
+        att_dropped = layers.Dropout(0.1, name = f"att_dropout_{i}")(att_out)
+        x = layers.Add(name = f"residual_att_{i}")([x, att_dropped])  # X = X + att(X)
 
         # --- Feed-Forward sub-block (Pre-LN) ---
         norm_x = layers.LayerNormalization(epsilon = 1e-5, name = f"ln_ffn_{i}")(x)
         ffn_hidden = layers.Dense(4 * d_model, activation = "gelu", name = f"ffn_expand_{i}")(norm_x)
         ffn_out = layers.Dense(d_model, name = f"ffn_proj_{i}")(ffn_hidden)
-        x = layers.Add(name = f"residual_ffn_{i}")([x, ffn_out])
+        ffn_dropped = layers.Dropout(0.1, name = f"ffn_dropout_{i}")(ffn_out)
+        x = layers.Add(name = f"residual_ffn_{i}")([x, ffn_dropped])
     # ------------------------------------------------------------------------------------------------
 
     # 3. Final Output Head

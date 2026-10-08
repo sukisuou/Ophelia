@@ -8,3 +8,6 @@ test.py
 tinystories_data.py
 convos.py
 tinystories_dataset.txt
+
+ophelia_first.py
+ophelia_weights.weights.h5

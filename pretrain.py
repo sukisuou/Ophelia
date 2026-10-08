@@ -19,19 +19,28 @@ def data_gen(data, batch_size = 16, block_size = block_size):
 model = build_transformer()
 model.summary()
 
-# use Adam and sparse categorical CE loss 
+# use AdamW and sparse categorical CE loss 
 model.compile(
-    optimizer = tf.keras.optimizers.Adam(learning_rate = 1e-3),
+    optimizer = tf.keras.optimizers.AdamW(learning_rate = 1e-3, weight_decay = 0.01, clipnorm = 1.0),
     loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits = True)
+)
+
+# stop early to avoid overfitting
+early_stopping = tf.keras.callbacks.EarlyStopping(
+    monitor = 'val_loss',
+    patience = 5,
+    restore_best_weights = True,
+    verbose = True
 )
 
 # begin training
 history = model.fit(
     data_gen(train_data),
     steps_per_epoch = 256,
-    epochs = 20,
+    epochs = 40,
     validation_data = data_gen(val_data),
-    validation_steps = 16
+    validation_steps = 16,
+    callbacks = [early_stopping]
 )
 np.save("pretrain_history.npy", history.history)
 

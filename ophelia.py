@@ -8,11 +8,11 @@ from model import build_transformer, block_size
 # build ophelia's model
 print("Loading Ophelia...")
 ophelia = build_transformer()
-ophelia.load_weights("ophelia_weights.weights.h5")
+ophelia.load_weights("ophelia.weights.h5")
 print("Done!\n")
 
 # get her vocab dicts from `prepare.py`
-with open("old_vocab.json", "r") as f:
+with open("vocab.json", "r") as f:
     vocab = json.load(f)
 char_to_id = vocab["char_to_id"]
 id_to_char = {int(k): v for k, v in vocab["id_to_char"].items()}
@@ -24,7 +24,31 @@ def encode(text):
 def decode(ids):
     return "".join([id_to_char[i] for i in ids])
 
+# create nucleus (top-p) temperature sampling - filter tail probabilities
+def sample_token(logits, temperature = 0.7, top_p = 0.85):
+    logits = logits / temperature
+
+    # sort logits in ascending order
+    sorted_logits, sorted_indices = tf.math.top_k(logits, k = tf.shape(logits)[-1])
+
+    # softmax and cumulative probabilities
+    probs = tf.nn.softmax(sorted_logits, axis = -1)
+    cum_probs = tf.math.cumsum(probs, axis = -1)
+
+    # mask the tokens above the top_p threshold, probs > top_p
+    mask = (cum_probs - probs) > top_p
+    filtered_sorted_logits = tf.where(mask, float("-inf"), sorted_logits)
+
+    # sample an index from the filtered candidates
+    sampled_rank = tf.random.categorical(filtered_sorted_logits, num_samples = 1, dtype = tf.int32)
+
+    # map back to vocab token ID
+    next_token_id = tf.gather(sorted_indices[0], sampled_rank[0, 0])
+    return tf.reshape(next_token_id, (1, 1))
+
+# ----------------------------------------------------------------------------------------
 # create autoregressive generation function
+# ----------------------------------------------------------------------------------------
 def generate(prompt, max_new_token = 60, stream = True):
     stop_id = char_to_id["|"]
 
@@ -42,7 +66,7 @@ def generate(prompt, max_new_token = 60, stream = True):
         last_token = logits[:, -1, :]
 
         # grab the next token (1, 1) using temperature of 0.7
-        next_token_id = tf.random.categorical(last_token / 0.7, num_samples = 1, dtype = tf.int32)
+        next_token_id = sample_token(last_token)
 
         # stops at delimiter "|"
         token_id = int(next_token_id[0, 0])
@@ -62,6 +86,7 @@ def generate(prompt, max_new_token = 60, stream = True):
     prompt_len = len(tokens)
     generated_tokens = idx[0, prompt_len:].numpy()
     return decode(generated_tokens)
+# ----------------------------------------------------------------------------------------
 
 # input prompting
 if __name__ == "__main__":

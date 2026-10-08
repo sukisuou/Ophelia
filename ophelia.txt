@@ -91,17 +91,17 @@ PROJECT OPHELIA: AUTOREGRESSIVE TRANSFORMER FROM SCRATCH
 - Add validation loss evaluation to training loop
 
 
-[ ] LEVEL 9: REGULARIZATION & OPTIMIZATION
+[X] LEVEL 9: REGULARIZATION & OPTIMIZATION
 ----------------------------------------------------------------------
 - Bump d_model to 128 and 8 heads
 - Add dropouts (embeddings, attention, and FFN)
-- Switch to AdamW optimizer with weight decay
-- Track best val_loss and save model checkpoints
+- Switch to AdamW optimizer with weight decay and gradient clipping
 - Implement early stopping with patience
+- Use nucleus (Top-p) sampling
 
 [ ] LEVEL 10: VOICE DUPLEXING & I/O
 ----------------------------------------------------------------------
-- Speech-to-Text: capture mic input -> string -> prompt formatting f"[{speech}]"
+- Speech-to-Text: capture mic input -> string -> prompt
 - Brain pass: Ophelia autoregressive generation -> decoded response string
 - Text-to-Speech: stream output text to local neural voice (Piper/Kokoro)
 - Real-time conversational loop (hands-free duplexing)
