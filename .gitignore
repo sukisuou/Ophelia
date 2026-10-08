@@ -11,3 +11,4 @@ tinystories_dataset.txt
 
 ophelia_first.py
 ophelia_weights.weights.h5
+loss_curve_first.png
