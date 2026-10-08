@@ -1,3 +1,5 @@
+# pre-train with tinystories dataset for language learning
+
 import numpy as np
 import tensorflow as tf
 
