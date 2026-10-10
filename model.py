@@ -11,7 +11,7 @@ vocab_size = len(vocab["char_to_id"])
 # set a context window size and its dimensional space
 block_size = 64
 d_model = 128
-num_heads = 8 
+num_heads = 4
 
 # 1. create a class for the embedding layer
 class TokenAndPositionEmbedding(layers.Layer):

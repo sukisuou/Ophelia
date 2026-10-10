@@ -25,10 +25,10 @@ def decode(ids):
     return "".join([id_to_char[i] for i in ids])
 
 # create nucleus (top-p) temperature sampling - filter tail probabilities
-def sample_token(logits, temperature = 0.7, top_p = 0.85):
+def sample_token(logits, temperature = 0.7, top_p = 0.8):
     logits = logits / temperature
 
-    # sort logits in ascending order
+    # sort logits in descending order
     sorted_logits, sorted_indices = tf.math.top_k(logits, k = tf.shape(logits)[-1])
 
     # softmax and cumulative probabilities
