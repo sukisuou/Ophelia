@@ -17,7 +17,7 @@ The main goal was to learn about **attention mechanism**, **transformer**, and *
 - **FFN architecture**: 512 + 128 (4 * d_model + d_model)
 - **Transformer Block**:
   - Pre-Layer Normalization (Pre-LN) for training stability
-  - Bias-free linear projections (W_q, W_k, W_v, W_0)
+  - Bias-free linear projections (W_q, W_k, W_v, W_O)
   - Multi-Head Causal Self-Attention with scaling
   - Feed-Forward Network (FFN) with GELU activation
   - Residual streaming across sub-layers (Attention and FFN blocks)
