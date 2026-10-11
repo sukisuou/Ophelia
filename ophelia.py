@@ -1,3 +1,10 @@
+# ====================================================================================
+# Main inference code: 
+# - autoregression generation system
+# - handles encoding and decoding from vocab.json dict
+# - top-p nucleus and temperature of 0.7
+# ====================================================================================
+
 import json
 import numpy as np
 import tensorflow as tf
