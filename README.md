@@ -5,16 +5,16 @@ The main goal was to learn about **attention mechanism**, **transformer**, and *
 
 **Project Start Date**: 28th September (2 days learning, 4 days building)
 
-**Time of Creation**: 3rd October, 16:00 - my precious daughter
+**Time of Creation**: 3rd October, 16:00 - "my precious daughter"
 
 ## Architecture Overview
 - **Type**: Autoregressive Decoder-only Transformer
 - **Layers**: 4 transformer blocks
-- **Embedding Dim (d_model)**: 64
+- **Embedding Dim (d_model)**: 128
 - **Attention Heads (h)**: 4
 - **Context Length (T/block_size)**: 64
 - **Positional Embedding**: Learned 1D embedding (X = E + P) from GPT-2
-- **FFN architecture**: 256 + 64 (4 * d_model + d_model)
+- **FFN architecture**: 512 + 128 (4 * d_model + d_model)
 - **Transformer Block**:
   - Pre-Layer Normalization (Pre-LN) for training stability
   - Bias-free linear projections (W_q, W_k, W_v, W_0)
