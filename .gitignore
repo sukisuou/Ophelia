@@ -4,11 +4,14 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.npy
+
 test.py
 tinystories_data.py
 convos.py
 tinystories_dataset.txt
 
-ophelia_first.py
-ophelia_weights.weights.h5
-loss_curve_first.png
+ophelia_the_first/
+
+loss_graph.py
+old_vocab.json
