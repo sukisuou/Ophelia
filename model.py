@@ -40,11 +40,11 @@ class MultiHeadAttention(layers.Layer):
         self.num_heads = num_heads
         self.d_k = d_model // num_heads
 
-        # create projection dense layers (Q, K, V, W_0)
+        # create projection dense layers (Q, K, V, O)
         self.q_proj = layers.Dense(d_model, use_bias = False, name = "Q_proj")
         self.k_proj = layers.Dense(d_model, use_bias = False, name = "K_proj")
         self.v_proj = layers.Dense(d_model, use_bias = False, name = "V_proj")
-        self.out_proj = layers.Dense(d_model, use_bias = False, name = "W_0_proj")
+        self.out_proj = layers.Dense(d_model, use_bias = False, name = "O_proj")
 
     def split_heads(self, tensor, B, T):
         # (B, T, d_model) -> (B, T, h, d_k)
@@ -81,7 +81,7 @@ class MultiHeadAttention(layers.Layer):
         # softmax
         A = tf.nn.softmax(att_scores, axis = -1)
 
-        # att_out = AV : (T, T) x (T, d_k) -> (T, d_k) -> weight proj, W_0
+        # att_out = AV : (T, T) x (T, d_k) -> (T, d_k) -> output proj, O
         out = tf.matmul(A, v)
         out = tf.transpose(out, perm = [0, 2, 1, 3])    # (B, T, h, d_k)
         out = tf.reshape(out, (B, T, self.d_model))     # (B, T, d_model)
