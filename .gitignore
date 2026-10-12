@@ -10,8 +10,6 @@ test.py
 tinystories_data.py
 convos.py
 tinystories_dataset.txt
+loss_graph.py
 
 ophelia_the_first/
-
-loss_graph.py
-old_vocab.json
